@@ -336,9 +336,13 @@ public class YAxisRenderer extends AxisRenderer {
                 } else if (position == LimitLine.LimitLabelPosition.LEFT_TOP) {
 
                     mLimitLinePaint.setTextAlign(Align.LEFT);
-                    // c.drawText(label,
-                    //         mViewPortHandler.contentLeft() + xOffset,
-                    //         pts[1] - yOffset + labelLineHeight, mLimitLinePaint);
+                    c.drawText(label,
+                        mViewPortHandler.contentLeft() + xOffset,
+                        pts[1] - yOffset + labelLineHeight, mLimitLinePaint);
+
+                } else if (position == LimitLine.LimitLabelPosition.LEFT_BOX) {
+                    mLimitLinePaint.setTextAlign(Align.RIGHT);
+
                     float leftPos = mViewPortHandler.contentLeft() - 85;
                     float topPos = pts[1] - 20;
                     float bottomPos = topPos + 40;
@@ -351,6 +355,22 @@ public class YAxisRenderer extends AxisRenderer {
                     float xoffset = mYAxis.getXOffset();
                     float xPos = mViewPortHandler.offsetLeft() - xoffset;
                     mLimitLinePaint.setTextAlign(Align.RIGHT);
+                    c.drawText(label, xPos, topPos + 30, mLimitLinePaint);
+                } else if (position == LimitLine.LimitLabelPosition.RIGHT_BOX) {
+
+                    mLimitLinePaint.setTextAlign(Align.LEFT);
+
+                    float leftPos = mViewPortHandler.contentRight();
+                    float topPos = pts[1] - 20;
+                    float bottomPos = topPos + 40;
+                    float rightPos = leftPos + 98;
+                    mLimitLinePaint.setColor(l.getLineColor());
+                    c.drawRoundRect(leftPos, topPos, rightPos, bottomPos,
+                            4.0f, 4.0f, mLimitLinePaint);
+                    mLimitLinePaint.setColor(l.getTextColor());
+
+                    float xoffset = mYAxis.getXOffset();
+                    float xPos = mViewPortHandler.contentRight() + xoffset;
                     c.drawText(label, xPos, topPos + 30, mLimitLinePaint);
                 } else {
 
