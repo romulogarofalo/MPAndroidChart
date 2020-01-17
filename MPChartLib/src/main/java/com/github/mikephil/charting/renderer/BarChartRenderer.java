@@ -21,6 +21,7 @@ import com.github.mikephil.charting.utils.Utils;
 import com.github.mikephil.charting.utils.ViewPortHandler;
 import android.graphics.LinearGradient;
 import com.github.mikephil.charting.model.GradientColor;
+import android.graphics.Path;
 
 import java.util.List;
 
@@ -191,8 +192,32 @@ public class BarChartRenderer extends BarLineScatterCandleBubbleRenderer {
             }
 
 
-            c.drawRect(buffer.buffer[j], buffer.buffer[j + 1], buffer.buffer[j + 2],
-                    buffer.buffer[j + 3], mRenderPaint);
+            // c.drawRect(buffer.buffer[j], buffer.buffer[j + 1], buffer.buffer[j + 2],
+            //         buffer.buffer[j + 3], mRenderPaint);
+
+            float left = buffer.buffer[j];
+            float top = buffer.buffer[j + 1];
+            float right = buffer.buffer[j + 2];
+            float bottom = buffer.buffer[j + 3];
+            float height = bottom - top;
+            float width = right - left;
+            float rx = 10, ry = 10;
+
+            Path bar = new Path();
+            bar.moveTo(right, top + ry);
+            bar.rQuadTo(0, -ry, -rx, -ry); //top-right corner
+            bar.rLineTo(-(width - (2 * rx)), 0);
+            bar.rQuadTo(-rx, 0, -rx, ry); //top-left corner
+            bar.rLineTo(0, (height - (2 * ry)));
+            bar.rLineTo(0, ry);
+            bar.rLineTo(rx, 0);
+            bar.rLineTo((width - (2 * rx)), 0);
+            bar.rLineTo(rx, 0);
+            bar.rLineTo(0, -ry);
+            bar.rLineTo(0, -(height - (2 * ry)));
+            bar.close();
+
+            c.drawPath(bar, mRenderPaint);
 
             if (drawBorder) {
                 c.drawRect(buffer.buffer[j], buffer.buffer[j + 1], buffer.buffer[j + 2],

@@ -24,6 +24,7 @@ android {
 }
 
 dependencies {
+    compile 'com.android.support:appcompat-v7:25.1.0'
     implementation 'androidx.annotation:annotation:1.0.0'
     testImplementation 'junit:junit:4.12'
 }

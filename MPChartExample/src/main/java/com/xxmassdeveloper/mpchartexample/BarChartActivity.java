@@ -23,6 +23,7 @@ import com.github.mikephil.charting.components.XAxis.XAxisPosition;
 import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.components.YAxis.AxisDependency;
 import com.github.mikephil.charting.components.YAxis.YAxisLabelPosition;
+import com.github.mikephil.charting.components.LimitLine;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
@@ -95,6 +96,13 @@ public class BarChartActivity extends DemoBase implements OnSeekBarChangeListene
         xAxis.setLabelCount(7);
         xAxis.setValueFormatter(xAxisFormatter);
 
+        LimitLine lm = new LimitLine(20, "20,0");
+        lm.setLabelPosition(LimitLine.LimitLabelPosition.LEFT_TOP);
+        lm.setTextColor(0xFFFFFFFF);
+        lm.setLineColor(0xFFFF8600);
+        lm.setLineWidth(1);
+        leftAxis.addLimitLine(lm);
+
         ValueFormatter custom = new MyValueFormatter("$");
 
         YAxis leftAxis = chart.getAxisLeft();
@@ -106,12 +114,14 @@ public class BarChartActivity extends DemoBase implements OnSeekBarChangeListene
         leftAxis.setAxisMinimum(0f); // this replaces setStartAtZero(true)
 
         YAxis rightAxis = chart.getAxisRight();
-        rightAxis.setDrawGridLines(false);
-        rightAxis.setTypeface(tfLight);
-        rightAxis.setLabelCount(8, false);
-        rightAxis.setValueFormatter(custom);
-        rightAxis.setSpaceTop(15f);
-        rightAxis.setAxisMinimum(0f); // this replaces setStartAtZero(true)
+        rightAxis.setEnabled(false);
+
+        // rightAxis.setDrawGridLines(false);
+        // rightAxis.setTypeface(tfLight);
+        // rightAxis.setLabelCount(8, false);
+        // rightAxis.setValueFormatter(custom);
+        // rightAxis.setSpaceTop(15f);
+        // rightAxis.setAxisMinimum(0f); // this replaces setStartAtZero(true)
 
         Legend l = chart.getLegend();
         l.setVerticalAlignment(Legend.LegendVerticalAlignment.BOTTOM);

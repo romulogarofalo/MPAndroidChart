@@ -275,7 +275,7 @@ public class YAxisRenderer extends AxisRenderer {
             int clipRestoreCount = c.save();
             mLimitLineClippingRect.set(mViewPortHandler.getContentRect());
             mLimitLineClippingRect.inset(0.f, -l.getLineWidth());
-            c.clipRect(mLimitLineClippingRect);
+            //c.clipRect(mLimitLineClippingRect);
 
             mLimitLinePaint.setStyle(Paint.Style.STROKE);
             mLimitLinePaint.setColor(l.getLineColor());
@@ -285,6 +285,14 @@ public class YAxisRenderer extends AxisRenderer {
             pts[1] = l.getLimit();
 
             mTrans.pointValuesToPixel(pts);
+
+            mLimitLinePaint.setColor(0xFFFFFFFF);
+            mLimitLinePaint.setStyle(Paint.Style.FILL);
+            c.drawRect(mViewPortHandler.contentLeft(), pts[1] - (l.getLineWidth() + 2),
+                    mViewPortHandler.contentRight(), pts[1] + (l.getLineWidth() + 2),
+                    mLimitLinePaint);
+            mLimitLinePaint.setStyle(Paint.Style.STROKE);
+            mLimitLinePaint.setColor(l.getLineColor());
 
             limitLinePath.moveTo(mViewPortHandler.contentLeft(), pts[1]);
             limitLinePath.lineTo(mViewPortHandler.contentRight(), pts[1]);
@@ -328,10 +336,22 @@ public class YAxisRenderer extends AxisRenderer {
                 } else if (position == LimitLine.LimitLabelPosition.LEFT_TOP) {
 
                     mLimitLinePaint.setTextAlign(Align.LEFT);
-                    c.drawText(label,
-                            mViewPortHandler.contentLeft() + xOffset,
-                            pts[1] - yOffset + labelLineHeight, mLimitLinePaint);
+                    // c.drawText(label,
+                    //         mViewPortHandler.contentLeft() + xOffset,
+                    //         pts[1] - yOffset + labelLineHeight, mLimitLinePaint);
+                    float leftPos = mViewPortHandler.contentLeft() - 85;
+                    float topPos = pts[1] - 20;
+                    float bottomPos = topPos + 40;
+                    float rightPos = leftPos + 85;
+                    mLimitLinePaint.setColor(l.getLineColor());
+                    c.drawRoundRect(leftPos, topPos, rightPos, bottomPos,
+                            4.0f, 4.0f, mLimitLinePaint);
+                    mLimitLinePaint.setColor(l.getTextColor());
 
+                    float xoffset = mYAxis.getXOffset();
+                    float xPos = mViewPortHandler.offsetLeft() - xoffset;
+                    mLimitLinePaint.setTextAlign(Align.RIGHT);
+                    c.drawText(label, xPos, topPos + 30, mLimitLinePaint);
                 } else {
 
                     mLimitLinePaint.setTextAlign(Align.LEFT);
